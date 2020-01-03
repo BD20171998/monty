@@ -20,8 +20,6 @@ void pall(stack_t **stack, unsigned int line_num)
         }
 }
 
-#include "holberton.h"
-
 /**
  * pint - print the top element of the stack
  * @stack: stack of elements

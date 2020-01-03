@@ -1,5 +1,5 @@
-#ifndef HOLBERTON
-#define HOLBERTON
+#ifndef MONTY
+#define MONTY
 
 #include <stdio.h>
 #include <unistd.h>
