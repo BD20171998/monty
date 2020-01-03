@@ -36,3 +36,26 @@ void pint(stack_t **stack, unsigned int line_num)
                 printf("%d\n", (*stack)->n);
 
 }
+
+/**
+ * pint - remove element from stack
+ * @stack: stack of elements
+ * @line_num: line number
+ */
+void pop(stack_t **stack, unsigned int line_num)
+{
+        stack_t *next = NULL;
+
+        if (stack == NULL || *stack == NULL)
+        {
+                printf("L%u: can't pop an empty stack\n", line_num);
+                exit(EXIT_FAILURE);
+        }
+
+        next = (*stack)->next;
+        free(*stack);
+        *stack = next;
+        if (*stack == NULL)
+                return;
+        (*stack)->prev = NULL;
+}
