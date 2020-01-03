@@ -30,6 +30,7 @@ typedef struct stack_s
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO Holberton project
  */
+
 typedef struct instruction_s
 {
         char *opcode;
@@ -38,6 +39,8 @@ typedef struct instruction_s
 
 void pall(stack_t **stack, unsigned int line_num);
 void pint(stack_t **stack, unsigned int line_num);
+void pop(stack_t **stack, unsigned int line_num);
+
 void free_dlistint(stack_t *head);
 stack_t *add_dnodeint(stack_t **head, const int n);
 char *_strdup(char *str);
