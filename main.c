@@ -32,19 +32,18 @@ int main(int argc, char *argv[])
 	{
 		getline(&line, &len, fd);
 		linecopy = _strdup(line);
+
 		token = strtok(linecopy, " \t\n");
 
 		if (strcmp(token, "push") == 0)
-			push(token, &stack, i, line, linecopy);
+			push(token, &stack, i, line, linecopy, fd);
 
 		else
-			others(token, &stack, i, line, linecopy);
-
+			others(token, &stack, i, line, linecopy, fd);
 		free(line);
 		free(linecopy);
+		line = linecopy = NULL;
 	}
-	free(line);
-	free(linecopy);
 	free_dlistint(stack);
 	fclose(fd);
 	return (0);

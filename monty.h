@@ -48,8 +48,8 @@ unsigned int linecount(FILE *fd);
 void err_msg(char *msg, char *file, int status);
 
 void push(char *token, stack_t **stack, unsigned int line_num, char *line,
-	  char *linecopy);
+	  char *linecopy, FILE *fd);
 void others(char *token, stack_t **stack, unsigned int line_num, char *line,
-	    char *linecopy);
+	    char *linecopy, FILE *fd);
 
 #endif

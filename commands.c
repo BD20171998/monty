@@ -1,17 +1,39 @@
 #include "monty.h"
 
 /**
+ * isdig - function that determines if a string contains a digit or not
+ * @token: Char pointer to be checked
+ * Return: 0 if a non-digit character is present, 1 otherwise
+ */
+
+int isdig(char *token)
+{
+	int i = 0;
+
+	while (token[i])
+	{
+		if (token[i] < '0' || token[i] > '9')
+			return (0);
+
+		++i;
+	}
+
+	return (1);
+}
+
+/**
  * push - function that pushes an element to the stack
  * @token: Char pointer for token read from file
  * @stack: the stack of elements of struct type stack_t
  * @line_num: line number of type unsigned int
  * @line: char pointer for original input read from file
  * @linecopy: Char pointer for copy of original input used for tokenization
+ * @fd: File descriptor
  * Return: Void
  */
 
 void push(char *token, stack_t **stack, unsigned int line_num, char *line,
-	  char *linecopy)
+	  char *linecopy, FILE *fd)
 {
 	int n;
 
@@ -19,25 +41,20 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 	{
 		token = strtok(NULL, " \t\n");
 
-		if (strcmp(token, "0") == 0)
-		{
-			n = 0;
-			add_dnodeint(stack, n);
-			return;
-		}
+		n = isdig(token);
 
-		n = atoi(token);
-
-		if (n == 0)
+		if (token == NULL || n == 0)
 		{
 			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
 				line_num);
 			free(line);
 			free(linecopy);
 			free_dlistint(*stack);
+			fclose(fd);
 			exit(EXIT_FAILURE);
 		}
 
+		n = atoi(token);
 		add_dnodeint(stack, n);
 		return;
 	}
@@ -53,11 +70,12 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
  * @line_num: line number of type unsigned int
  * @line: char pointer for original input read from file
  * @linecopy: Char pointer for copy of original input used for tokenization
+ * @fd: File descriptor
  * Return: Void
  */
 
 void others(char *token, stack_t **stack, unsigned int line_num, char *line,
-	    char *linecopy)
+	    char *linecopy, FILE *fd)
 {
 	int j = 0;
 
@@ -83,5 +101,6 @@ void others(char *token, stack_t **stack, unsigned int line_num, char *line,
 	free(linecopy);
 	free(line);
 	free_dlistint(*stack);
+	fclose(fd);
 	exit(EXIT_FAILURE);
 }
