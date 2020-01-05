@@ -93,10 +93,12 @@ void others(char *token, stack_t **stack, unsigned int line_num, char *line,
 	instruction_t ops[] = {
 		{"pall", pall},
 		{"pint", pint},
-		{"pop", pop}
+		{"pop", pop},
+		{"add", add},
+		{"swap", swap}
 	};
 
-	while (j < 3)
+	while (j < 5)
 	{
 		if (strcmp(token, ops[j].opcode) == 0)
 		{
