@@ -54,5 +54,6 @@ void others(char *token, stack_t **stack, unsigned int line_num, char *line,
 	    char *linecopy, FILE *fd);
 void add(stack_t **stack, unsigned int line_num);
 void swap(stack_t **stack, unsigned int line_num);
+void nop(stack_t **stack, unsigned int line_num);
 
 #endif
