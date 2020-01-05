@@ -41,9 +41,20 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 	{
 		token = strtok(NULL, " \t\n");
 
+		if (token == NULL)
+		{
+			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
+				line_num);
+			free(line);
+			free(linecopy);
+			free_dlistint(*stack);
+			fclose(fd);
+			exit(EXIT_FAILURE);
+		}
+
 		n = isdig(token);
 
-		if (token == NULL || n == 0)
+		if (n == 0)
 		{
 			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
 				line_num);
