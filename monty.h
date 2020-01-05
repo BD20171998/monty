@@ -42,8 +42,9 @@ void pint(stack_t **stack, unsigned int line_num);
 void pop(stack_t **stack, unsigned int line_num);
 
 void free_dlistint(stack_t *head);
-stack_t *add_dnodeint(stack_t **head, const int n);
-char *_strdup(char *str);
+void add_dnodeint(stack_t **head, const int n, char *line, char *linecopy,
+		      FILE *fd);
+char *_strdup(char *str, stack_t **stack,  FILE *fd);
 unsigned int linecount(FILE *fd);
 void err_msg(char *msg, char *file, int status);
 

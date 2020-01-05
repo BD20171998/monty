@@ -66,7 +66,7 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 		}
 
 		n = atoi(token);
-		add_dnodeint(stack, n);
+		add_dnodeint(stack, n, line, linecopy, fd);
 		return;
 	}
 

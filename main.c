@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 	for (i = 1; i < count + 1; i++)
 	{
 		getline(&line, &len, fd);
-		linecopy = _strdup(line);
+		linecopy = _strdup(line, &stack, fd);
 		token = strtok(linecopy, " \t\n");
 
 		if (token == NULL)
