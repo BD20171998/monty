@@ -12,6 +12,12 @@ int isdig(char *token)
 
 	while (token[i])
 	{
+		if (token[0] == '-')
+		{
+			++i;
+			continue;
+		}
+
 		if (token[i] < '0' || token[i] > '9')
 			return (0);
 
@@ -56,8 +62,8 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 
 		if (n == 0)
 		{
-			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
-				line_num);
+			dprintf(STDERR_FILENO, "L%u: usage: push integer %d\n",
+				line_num, n);
 			free(line);
 			free(linecopy);
 			free_dlistint(*stack);

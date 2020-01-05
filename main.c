@@ -1,27 +1,17 @@
 #include "monty.h"
 
 /**
- * err_token - function that handles an initial token which is NULL
- * @token: Char pointer for token read from file
- * @stack: the stack of elements of struct type stack_t
- * @line_num: line number of type unsigned int
+ * null_token - function that handles blank lines when reading file
  * @line: char pointer for original input read from file
  * @linecopy: Char pointer for copy of original input used for tokenization
- * @fd: File descriptor
- * Return: Void
+ * Return: void
  */
 
-void err_token(char *token, stack_t **stack, unsigned int line_num, char *line,
-	       char *linecopy, FILE *fd)
+void null_token(char *line, char *linecopy)
 {
-	dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n",
-		line_num, token);
-
 	free(line);
 	free(linecopy);
-	free_dlistint(*stack);
-	fclose(fd);
-	exit(EXIT_FAILURE);
+	line = linecopy = NULL;
 }
 
 /**
@@ -57,11 +47,12 @@ int main(int argc, char *argv[])
 		token = strtok(linecopy, " \t\n");
 
 		if (token == NULL)
-			err_token(token, &stack, i, line, linecopy, fd);
-
+		{
+			null_token(line, linecopy);
+			continue;
+		}
 		else if (strcmp(token, "push") == 0)
 			push(token, &stack, i, line, linecopy, fd);
-
 		else
 			others(token, &stack, i, line, linecopy, fd);
 		free(line);
