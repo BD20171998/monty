@@ -38,21 +38,43 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct buffer -buffers
+ * @fd: File descriptor
+ * @line: Line buffer for input read in
+ * @linecopy: Copy of line buffer for strtok use
+ * @stack: Double pointer for stack of struct stack_s
+ * Description: various buffers to hold inputs
+ */
+
+typedef struct buffer
+{
+	FILE *fd;
+	char *line;
+	char *linecopy;
+	stack_t **stack;
+
+} global_buf;
+
+extern global_buf buf;
+
 void pall(stack_t **stack, unsigned int line_num);
 void pint(stack_t **stack, unsigned int line_num);
 void pop(stack_t **stack, unsigned int line_num);
 
 void free_dlistint(stack_t *head);
-void add_dnodeint(stack_t **head, const int n, char *line, char *linecopy,
-		      FILE *fd);
-char *_strdup(char *str, stack_t **stack,  FILE *fd);
+void add_dnodeint(stack_t **head, const int n);
+
+char *_strdup(char *str);
 unsigned int linecount(FILE *fd);
 void err_msg(char *msg, char *file, int status);
 
-void push(char *token, stack_t **stack, unsigned int line_num, char *line,
-	  char *linecopy, FILE *fd);
-void others(char *token, stack_t **stack, unsigned int line_num, char *line,
-	    char *linecopy, FILE *fd);
+void push(char *token, unsigned int line_num);
+void others(char *token,  unsigned int line_num);
+void free_all(void);
+void free_line(void);
+void free_line2(void);
+
 void add(stack_t **stack, unsigned int line_num);
 void swap(stack_t **stack, unsigned int line_num);
 void nop(stack_t **stack, unsigned int line_num);

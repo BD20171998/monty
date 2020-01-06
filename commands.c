@@ -30,16 +30,11 @@ int isdig(char *token)
 /**
  * push - function that pushes an element to the stack
  * @token: Char pointer for token read from file
- * @stack: the stack of elements of struct type stack_t
  * @line_num: line number of type unsigned int
- * @line: char pointer for original input read from file
- * @linecopy: Char pointer for copy of original input used for tokenization
- * @fd: File descriptor
  * Return: Void
  */
 
-void push(char *token, stack_t **stack, unsigned int line_num, char *line,
-	  char *linecopy, FILE *fd)
+void push(char *token, unsigned int line_num)
 {
 	int n;
 
@@ -51,10 +46,7 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 		{
 			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
 				line_num);
-			free(line);
-			free(linecopy);
-			free_dlistint(*stack);
-			fclose(fd);
+			free_all();
 			exit(EXIT_FAILURE);
 		}
 
@@ -62,17 +54,14 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 
 		if (n == 0)
 		{
-			dprintf(STDERR_FILENO, "L%u: usage: push integer %d\n",
-				line_num, n);
-			free(line);
-			free(linecopy);
-			free_dlistint(*stack);
-			fclose(fd);
+			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
+				line_num);
+			free_all();
 			exit(EXIT_FAILURE);
 		}
 
 		n = atoi(token);
-		add_dnodeint(stack, n, line, linecopy, fd);
+		add_dnodeint(buf.stack, n);
 		return;
 	}
 
@@ -83,16 +72,11 @@ void push(char *token, stack_t **stack, unsigned int line_num, char *line,
 /**
  * others - function that executes opcodes from tokens other than push
  * @token: Char pointer for token read from file
- * @stack: the stack of elements of struct type stack_t
  * @line_num: line number of type unsigned int
- * @line: char pointer for original input read from file
- * @linecopy: Char pointer for copy of original input used for tokenization
- * @fd: File descriptor
  * Return: Void
  */
 
-void others(char *token, stack_t **stack, unsigned int line_num, char *line,
-	    char *linecopy, FILE *fd)
+void others(char *token, unsigned int line_num)
 {
 	int j = 0;
 
@@ -109,7 +93,7 @@ void others(char *token, stack_t **stack, unsigned int line_num, char *line,
 	{
 		if (strcmp(token, ops[j].opcode) == 0)
 		{
-			ops[j].f(stack, line_num);
+			ops[j].f(buf.stack, line_num);
 			return;
 		}
 
@@ -118,9 +102,6 @@ void others(char *token, stack_t **stack, unsigned int line_num, char *line,
 
 	dprintf(STDERR_FILENO, "L%u: unknown instruction %s\n", line_num,
 		token);
-	free(linecopy);
-	free(line);
-	free_dlistint(*stack);
-	fclose(fd);
+	free_all();
 	exit(EXIT_FAILURE);
 }
