@@ -1,6 +1,18 @@
 #include "monty.h"
 
-global_buf buf;
+/**
+ * null_token - function that handles blank lines when reading file
+ * @line: char pointer for original input read from file
+ * @linecopy: Char pointer for copy of original input used for tokenization
+ * Return: void
+ */
+
+void null_token(char *line, char *linecopy)
+{
+	free(line);
+	free(linecopy);
+	line = linecopy = NULL;
+}
 
 /**
  * main - program that copies the content of a file to another file
@@ -11,44 +23,43 @@ global_buf buf;
 
 int main(int argc, char *argv[])
 {
-	char *line = NULL, *token;
+	FILE *fd;
+	char *line = NULL, *linecopy = NULL, *token;
 	unsigned int count, i;
 	size_t len = 0;
 	stack_t *stack = NULL;
 
-	buf.stack = &stack;
-
 	if (argc != 2)
 		err_msg("USAGE: monty ", "file", EXIT_FAILURE);
 
-	buf.fd = fopen(argv[1], "r");
+	fd = fopen(argv[1], "r");
 
-	if (buf.fd == NULL)
+	if (fd == NULL)
 		err_msg("Error: Can't open file ", argv[1], EXIT_FAILURE);
 
-	count = linecount(buf.fd);
-	buf.fd = fopen(argv[1], "r");
+	count = linecount(fd);
+	fd = fopen(argv[1], "r");
 
 	for (i = 1; i < count + 1; i++)
 	{
-		getline(&line, &len, buf.fd);
-		buf.line = line;
-		buf.linecopy = _strdup(buf.line);
-		token = strtok(buf.linecopy, " \t\n");
+		getline(&line, &len, fd);
+		linecopy = _strdup(line, &stack, fd);
+		token = strtok(linecopy, " \t\n");
 
 		if (token == NULL)
 		{
-			free_line();
+			null_token(line, linecopy);
 			continue;
 		}
-
 		else if (strcmp(token, "push") == 0)
-			push(token, i);
+			push(token, &stack, i, line, linecopy, fd);
 		else
-			others(token, i);
-		free_line();
+			others(token, &stack, i, line, linecopy, fd);
+		free(line);
+		free(linecopy);
+		line = linecopy = NULL;
 	}
-	free_dlistint(*buf.stack);
-	fclose(buf.fd);
+	free_dlistint(stack);
+	fclose(fd);
 	return (0);
 }

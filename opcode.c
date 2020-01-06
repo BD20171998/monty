@@ -31,7 +31,6 @@ void pint(stack_t **stack, unsigned int line_num)
 	{
 		dprintf(STDERR_FILENO, "L%u: can't pint, stack empty\n",
 			line_num);
-		free_all();
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -51,7 +50,6 @@ void pop(stack_t **stack, unsigned int line_num)
 	{
 		dprintf(STDERR_FILENO, "L%u: can't pop an empty stack\n",
 			line_num);
-		free_all();
 		exit(EXIT_FAILURE);
 	}
 
@@ -78,7 +76,6 @@ void swap(stack_t **stack, unsigned int line_num)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n",
 			line_num);
-		free_all();
 		exit(EXIT_FAILURE);
 	}
 	current = *stack;
@@ -104,7 +101,6 @@ void add(stack_t **stack, unsigned int line_num)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't add, stack too short\n",
 			line_num);
-		free_all();
 		exit(EXIT_FAILURE);
 	}
 
