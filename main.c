@@ -1,20 +1,6 @@
 #include "monty.h"
 
 /**
- * null_token - function that handles blank lines when reading file
- * @line: char pointer for original input read from file
- * @linecopy: Char pointer for copy of original input used for tokenization
- * Return: void
- */
-
-void null_token(char *line, char *linecopy)
-{
-	free(line);
-	free(linecopy);
-	line = linecopy = NULL;
-}
-
-/**
  * main - program that copies the content of a file to another file
  * @argc: - Int of arguments passed into program including command
  * @argv: - Array of pointers to the strings of arguments passed
@@ -24,7 +10,7 @@ void null_token(char *line, char *linecopy)
 int main(int argc, char *argv[])
 {
 	FILE *fd;
-	char *line = NULL, *linecopy = NULL, *token;
+	char *line = NULL, *token;
 	unsigned int count, i;
 	size_t len = 0;
 	stack_t *stack = NULL;
@@ -43,22 +29,19 @@ int main(int argc, char *argv[])
 	for (i = 1; i < count + 1; i++)
 	{
 		getline(&line, &len, fd);
-		linecopy = _strdup(line, &stack, fd);
-		token = strtok(linecopy, " \t\n");
+
+		token = strtok(line, " \t\n");
 
 		if (token == NULL)
-		{
-			null_token(line, linecopy);
 			continue;
-		}
+
 		else if (strcmp(token, "push") == 0)
-			push(token, &stack, i, line, linecopy, fd);
+			push(token, &stack, i, line, fd);
 		else
-			others(token, &stack, i, line, linecopy, fd);
-		free(line);
-		free(linecopy);
-		line = linecopy = NULL;
+			others(token, &stack, i, line, fd);
 	}
+
+	free(line);
 	free_dlistint(stack);
 	fclose(fd);
 	return (0);

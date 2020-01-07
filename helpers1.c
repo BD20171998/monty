@@ -30,13 +30,11 @@ void free_dlistint(stack_t *head)
  * @head: Const pointer to head node for linked stack_t list
  * @n: Const integer of node to be added
  * @line: char pointer for original input read from file
- * @linecopy: Char pointer for copy of original input used for tokenization
  * @fd: File descriptor
  * Return: void
  */
 
-void add_dnodeint(stack_t **head, const int n, char *line, char *linecopy,
-		  FILE *fd)
+void add_dnodeint(stack_t **head, const int n, char *line, FILE *fd)
 {
 	stack_t *new;
 
@@ -46,7 +44,6 @@ void add_dnodeint(stack_t **head, const int n, char *line, char *linecopy,
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
 		free(line);
-		free(linecopy);
 		free_dlistint(*head);
 		fclose(fd);
 		exit(EXIT_FAILURE);
@@ -66,49 +63,6 @@ void add_dnodeint(stack_t **head, const int n, char *line, char *linecopy,
 	new->next = *head;
 
 	*head = new;
-}
-
-/**
- * _strdup - function that returns a pointer to a newly allocated space in
- * memory, which contains a copy of the string given as a parameter
- * @str: - Char string to be copied
- * @stack: the stack of elements of struct type stack_t
- * @fd: File descriptor
- * Return: Char pointer to the duplicated string. Return NULL if insufficient
- * memory was available to array or if array is NULL
- */
-
-char *_strdup(char *str, stack_t **stack, FILE *fd)
-{
-	char *dup;
-
-	int i, l;
-
-	if (str == NULL)
-		return (NULL);
-
-	l = 0;
-
-	for (i = 0; str[i] != '\0'; i++)
-		l++;
-
-	dup = malloc(sizeof(char) * l + 1);
-
-	if (dup == NULL)
-	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		free(str);
-		free_dlistint(*stack);
-		fclose(fd);
-		exit(EXIT_FAILURE);
-	}
-
-	for (i = 0; i < l ; i++)
-		dup[i] = str[i];
-
-	dup[l] = '\0';
-
-	return (dup);
 }
 
 /**
