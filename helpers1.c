@@ -1,6 +1,19 @@
 #include "monty.h"
 
 /**
+ * free_all - function that frees all malloc'd memory used and closes the file
+ * descriptor
+ * Return: Void
+ */
+
+void free_all(void)
+{
+	free(buf.line);
+	free_dlistint(*buf.stack);
+	fclose(buf.fd);
+}
+
+/**
  * free_dlistint - function that free a dlistint_t list
  * @head: Const pointer to head node for linked dlistint_t list
  * Return: Void
@@ -29,12 +42,10 @@ void free_dlistint(stack_t *head)
  * stack_t list
  * @head: Const pointer to head node for linked stack_t list
  * @n: Const integer of node to be added
- * @line: char pointer for original input read from file
- * @fd: File descriptor
  * Return: void
  */
 
-void add_dnodeint(stack_t **head, const int n, char *line, FILE *fd)
+void add_dnodeint(stack_t **head, const int n)
 {
 	stack_t *new;
 
@@ -43,9 +54,7 @@ void add_dnodeint(stack_t **head, const int n, char *line, FILE *fd)
 	if (new == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		free(line);
-		free_dlistint(*head);
-		fclose(fd);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
 
