@@ -103,6 +103,6 @@ unsigned int linecount(FILE *fd)
 
 void err_msg(char *msg, char *file, int status)
 {
-	dprintf(STDIN_FILENO, "%s%s\n", msg, file);
+	dprintf(STDERR_FILENO, "%s%s\n", msg, file);
 	exit(status);
 }
