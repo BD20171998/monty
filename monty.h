@@ -66,6 +66,9 @@ void sub(stack_t **stack, unsigned int line_num);
 void mydiv(stack_t **stack, unsigned int line_num);
 void mymul(stack_t **stack, unsigned int line_num);
 void mymod(stack_t **stack, unsigned int line_num);
+void pstr(stack_t **stack, unsigned int line_num);
+void pchar(stack_t **stack, unsigned int line_num);
+
 
 void free_dlistint(stack_t *head);
 void add_dnodeint(stack_t **head, const int n);

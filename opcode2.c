@@ -113,3 +113,29 @@ void mymod(stack_t **stack, unsigned int line_num)
 	pop(stack, line_num);
 	(*stack)->n = total;
 }
+/**
+ * pchar - main function
+ * @stack: stack of elements
+ * @line_num: line number
+ */
+void pchar(stack_t **stack, unsigned int line_num)
+{
+	if (stack == NULL || *stack == NULL)
+	{
+		dprintf(STDERR_FILENO, "L%u: can't pchar, stack empty\n",
+			line_num);
+		free_all();
+		exit(EXIT_FAILURE);
+	}
+
+	if ((*stack)->n > 127 || (*stack)->n < 0)
+	{
+		dprintf(STDERR_FILENO, "L%u: can't pchar, value out of range\n",
+			line_num);
+		free_all();
+		exit(EXIT_FAILURE);
+	}
+
+	printf("%c\n", (*stack)->n);
+
+}

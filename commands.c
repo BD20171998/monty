@@ -90,10 +90,12 @@ void others(char *token, unsigned int line_num)
 		{"sub", sub},
 		{"div", mydiv},
 		{"mul", mymul},
-		{"mod", mymod}
+		{"mod", mymod},
+		{"pstr", pstr},
+		{"pchar", pchar}
 	};
 
-	while (j < 10)
+	while (j < 12)
 	{
 		if (strcmp(token, ops[j].opcode) == 0)
 		{
